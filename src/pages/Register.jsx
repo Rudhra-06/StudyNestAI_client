@@ -32,6 +32,8 @@ const Register = () => {
     }
   };
 
+  const isStudent = formData.role === 'student';
+
   return (
     <div className="auth-container">
       <h2>Register - StudyNestAI</h2>
@@ -56,15 +58,19 @@ const Register = () => {
         <div className="form-group">
           <input name="department" placeholder="Department" onChange={handleChange} />
         </div>
-        <div className="form-group">
-          <input name="year" type="number" placeholder="Year" onChange={handleChange} />
-        </div>
-        <div className="form-group">
-          <input name="hostelBlock" placeholder="Hostel Block" onChange={handleChange} />
-        </div>
-        <div className="form-group">
-          <input name="roomNumber" placeholder="Room Number" onChange={handleChange} />
-        </div>
+        {isStudent && (
+          <>
+            <div className="form-group">
+              <input name="year" type="number" placeholder="Year" onChange={handleChange} />
+            </div>
+            <div className="form-group">
+              <input name="hostelBlock" placeholder="Hostel Block" onChange={handleChange} />
+            </div>
+            <div className="form-group">
+              <input name="roomNumber" placeholder="Room Number" onChange={handleChange} />
+            </div>
+          </>
+        )}
         <button type="submit" className="btn-primary">
           Register
         </button>
