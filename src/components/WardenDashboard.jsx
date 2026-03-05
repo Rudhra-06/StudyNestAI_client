@@ -49,33 +49,50 @@ const WardenDashboard = () => {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Warden Dashboard</h1>
-      <p>Welcome, {user.name}!</p>
-      <button onClick={logout} style={{ padding: '10px', background: '#dc3545', color: '#fff', border: 'none', marginBottom: '20px' }}>Logout</button>
-
-      <div style={{ marginBottom: '20px' }}>
-        <h2>Emergency Alerts</h2>
-        {emergencies.map(e => (
-          <div key={e._id} style={{ background: '#f8d7da', padding: '10px', margin: '5px', border: '1px solid #f5c6cb' }}>
-            <p><strong>Student:</strong> {e.userId?.name}</p>
-            <p><strong>Location:</strong> {e.location}</p>
-            <p><strong>Message:</strong> {e.message}</p>
-            <p><strong>Status:</strong> {e.status}</p>
-          </div>
-        ))}
+    <div className="dashboard-container">
+      <div className="dashboard-header">
+        <h1>👮 Warden Dashboard</h1>
+        <div>
+          <span style={{ marginRight: '20px', color: '#667eea', fontWeight: 'bold' }}>Welcome, {user.name}!</span>
+          <button onClick={logout} className="btn-danger">Logout</button>
+        </div>
       </div>
 
-      <div>
-        <h2>Complaints</h2>
-        {complaints.map(c => (
-          <div key={c._id} style={{ background: '#f9f9f9', padding: '10px', margin: '5px', border: '1px solid #ddd' }}>
-            <p><strong>{c.category}</strong>: {c.description}</p>
-            <p>Status: {c.status}</p>
-            <button onClick={() => updateComplaint(c._id, 'in-progress')} style={{ padding: '5px', margin: '2px' }}>In Progress</button>
-            <button onClick={() => updateComplaint(c._id, 'resolved')} style={{ padding: '5px', margin: '2px' }}>Resolve</button>
-          </div>
-        ))}
+      <div className="card">
+        <h2>🚨 Emergency Alerts</h2>
+        {emergencies.length === 0 ? (
+          <p style={{ color: '#999', textAlign: 'center', padding: '20px' }}>No emergency alerts</p>
+        ) : (
+          emergencies.map(e => (
+            <div key={e._id} className="emergency-item">
+              <p><strong>👨‍🎓 Student:</strong> {e.userId?.name}</p>
+              <p><strong>📍 Location:</strong> {e.location}</p>
+              <p><strong>💬 Message:</strong> {e.message}</p>
+              <span className="status-badge status-active">{e.status}</span>
+            </div>
+          ))
+        )}
+      </div>
+
+      <div className="card">
+        <h2>📢 Complaints Management</h2>
+        {complaints.length === 0 ? (
+          <p style={{ color: '#999', textAlign: 'center', padding: '20px' }}>No complaints</p>
+        ) : (
+          complaints.map(c => (
+            <div key={c._id} className="complaint-item">
+              <p><strong>{c.category.toUpperCase()}</strong>: {c.description}</p>
+              <p><strong>Student:</strong> {c.userId?.name}</p>
+              <span className={`status-badge status-${c.status === 'pending' ? 'pending' : c.status === 'in-progress' ? 'in-progress' : 'resolved'}`}>
+                {c.status}
+              </span>
+              <div style={{ marginTop: '10px' }}>
+                <button onClick={() => updateComplaint(c._id, 'in-progress')} className="btn-info">In Progress</button>
+                <button onClick={() => updateComplaint(c._id, 'resolved')} className="btn-success">Resolve</button>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

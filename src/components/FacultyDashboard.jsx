@@ -5,12 +5,16 @@ const FacultyDashboard = () => {
   const { user, logout } = useContext(AuthContext);
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Faculty Dashboard</h1>
-      <p>Welcome, {user.name}!</p>
-      <button onClick={logout} style={{ padding: '10px', background: '#dc3545', color: '#fff', border: 'none' }}>Logout</button>
-      <div style={{ marginTop: '20px' }}>
-        <h2>Student Analytics</h2>
+    <div className="dashboard-container">
+      <div className="dashboard-header">
+        <h1>👨‍🏫 Faculty Dashboard</h1>
+        <div>
+          <span style={{ marginRight: '20px', color: '#667eea', fontWeight: 'bold' }}>Welcome, {user.name}!</span>
+          <button onClick={logout} className="btn-danger">Logout</button>
+        </div>
+      </div>
+      <div className="card">
+        <h2>📊 Student Analytics</h2>
         <p>View student productivity reports here...</p>
       </div>
     </div>

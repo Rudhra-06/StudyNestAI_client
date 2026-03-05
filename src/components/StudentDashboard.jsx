@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import API from '../utils/api';
-import io from 'socket.io-client';
+import TimetableGenerator from './TimetableGenerator';
 
 const StudentDashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -88,47 +88,67 @@ const StudentDashboard = () => {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Student Dashboard</h1>
-      <p>Welcome, {user.name}!</p>
-      <button onClick={logout} style={{ padding: '10px', background: '#dc3545', color: '#fff', border: 'none', marginBottom: '20px' }}>Logout</button>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-        <div style={{ border: '1px solid #ccc', padding: '20px' }}>
-          <h2>Study Bot</h2>
-          <p>Current Streak: {streak} days</p>
-          {activeSession ? (
-            <div>
-              <p>Studying: {activeSession.subject}</p>
-              <button onClick={endStudy} style={{ padding: '10px', background: '#dc3545', color: '#fff', border: 'none' }}>End Session</button>
-            </div>
-          ) : (
-            <button onClick={startStudy} style={{ padding: '10px', background: '#28a745', color: '#fff', border: 'none' }}>Start Study</button>
-          )}
-        </div>
-
-        <div style={{ border: '1px solid #ccc', padding: '20px' }}>
-          <h2>Hostel Companion</h2>
-          <button onClick={submitComplaint} style={{ padding: '10px', background: '#007bff', color: '#fff', border: 'none', margin: '5px' }}>Submit Complaint</button>
-          <button onClick={triggerEmergency} style={{ padding: '10px', background: '#ff0000', color: '#fff', border: 'none', margin: '5px' }}>Emergency Alert</button>
-          <h3>My Complaints</h3>
-          {complaints.map(c => (
-            <div key={c._id} style={{ background: '#f9f9f9', padding: '10px', margin: '5px' }}>
-              <p><strong>{c.category}</strong>: {c.description}</p>
-              <p>Status: {c.status}</p>
-            </div>
-          ))}
+    <div className="dashboard-container">
+      <div className="dashboard-header">
+        <h1>🎓 Student Dashboard</h1>
+        <div>
+          <span style={{ marginRight: '20px', color: '#667eea', fontWeight: 'bold' }}>Welcome, {user.name}!</span>
+          <button onClick={logout} className="btn-danger">Logout</button>
         </div>
       </div>
 
-      <div style={{ marginTop: '20px', border: '1px solid #ccc', padding: '20px' }}>
-        <h2>Notices</h2>
-        {notices.map(n => (
-          <div key={n._id} style={{ background: '#fff3cd', padding: '10px', margin: '5px' }}>
-            <h4>{n.title}</h4>
-            <p>{n.content}</p>
+      <div className="dashboard-grid">
+        <div className="card">
+          <h2>📚 Study Bot</h2>
+          <div className="streak-display">
+            <p>Current Streak</p>
+            <h3>🔥 {streak}</h3>
+            <p>days</p>
           </div>
-        ))}
+          {activeSession ? (
+            <div>
+              <p style={{ fontSize: '18px', margin: '15px 0' }}>📖 Studying: <strong>{activeSession.subject}</strong></p>
+              <button onClick={endStudy} className="btn-danger" style={{ width: '100%' }}>End Session</button>
+            </div>
+          ) : (
+            <button onClick={startStudy} className="btn-success" style={{ width: '100%' }}>Start Study Session</button>
+          )}
+        </div>
+
+        <div className="card">
+          <h2>🏠 Hostel Companion</h2>
+          <button onClick={submitComplaint} className="btn-info" style={{ width: '100%', marginBottom: '10px' }}>Submit Complaint</button>
+          <button onClick={triggerEmergency} className="btn-danger" style={{ width: '100%' }}>🚨 Emergency Alert</button>
+          <h3>My Complaints</h3>
+          {complaints.length === 0 ? (
+            <p style={{ color: '#999', textAlign: 'center', padding: '20px' }}>No complaints yet</p>
+          ) : (
+            complaints.map(c => (
+              <div key={c._id} className="complaint-item">
+                <p><strong>{c.category.toUpperCase()}</strong>: {c.description}</p>
+                <span className={`status-badge status-${c.status === 'pending' ? 'pending' : c.status === 'in-progress' ? 'in-progress' : 'resolved'}`}>
+                  {c.status}
+                </span>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
+      <TimetableGenerator />
+
+      <div className="card">
+        <h2>📢 Notices</h2>
+        {notices.length === 0 ? (
+          <p style={{ color: '#999', textAlign: 'center', padding: '20px' }}>No notices available</p>
+        ) : (
+          notices.map(n => (
+            <div key={n._id} className="notice-item">
+              <h4>{n.title}</h4>
+              <p>{n.content}</p>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
