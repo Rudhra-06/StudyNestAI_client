@@ -8,6 +8,9 @@ body {
   font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #f5f7fa;
   min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 .auth-container {
@@ -142,9 +145,12 @@ body {
 
 .dashboard-container {
   padding: 40px 60px;
-  width: 100%;
+  width: 100vw;
+  max-width: 100%;
   background: #f5f7fa;
   min-height: 100vh;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .dashboard-header {
@@ -157,6 +163,7 @@ body {
   justify-content: space-between;
   align-items: center;
   border-left: 5px solid #2d3748;
+  width: 100%;
 }
 
 .dashboard-header h1 {
@@ -168,8 +175,9 @@ body {
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 25px;
+  gap: 30px;
   margin-bottom: 30px;
+  width: 100%;
 }
 
 .card {
@@ -179,6 +187,7 @@ body {
   box-shadow: 0 4px 20px rgba(0,0,0,0.05);
   transition: all 0.3s;
   border: 1px solid #f0f0f0;
+  width: 100%;
 }
 
 .card:hover {
