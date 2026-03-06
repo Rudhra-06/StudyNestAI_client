@@ -5,6 +5,8 @@ import TimetableGenerator from './TimetableGenerator';
 import ProductivityCard from './dashboard/ProductivityCard';
 import WeeklyChart from './dashboard/WeeklyChart';
 import Leaderboard from './dashboard/Leaderboard';
+import StudyTimer from './dashboard/StudyTimer';
+import DailyProgress from './dashboard/DailyProgress';
 
 const StudentDashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -101,6 +103,8 @@ const StudentDashboard = () => {
       </div>
 
       <div className="dashboard-grid">
+        <StudyTimer onSessionEnd={() => fetchStreak()} />
+
         <div className="card">
           <h2>📚 Study Bot</h2>
           <div className="streak-display">
@@ -139,6 +143,8 @@ const StudentDashboard = () => {
       </div>
 
       <TimetableGenerator />
+
+      <DailyProgress />
 
       <ProductivityCard />
 
