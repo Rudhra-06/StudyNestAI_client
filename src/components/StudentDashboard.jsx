@@ -2,6 +2,9 @@ import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import API from '../utils/api';
 import TimetableGenerator from './TimetableGenerator';
+import ProductivityCard from './dashboard/ProductivityCard';
+import WeeklyChart from './dashboard/WeeklyChart';
+import Leaderboard from './dashboard/Leaderboard';
 
 const StudentDashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -136,6 +139,12 @@ const StudentDashboard = () => {
       </div>
 
       <TimetableGenerator />
+
+      <ProductivityCard />
+
+      <WeeklyChart />
+
+      <Leaderboard />
 
       <div className="card">
         <h2>📢 Notices</h2>
