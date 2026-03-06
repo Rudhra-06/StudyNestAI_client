@@ -18,11 +18,35 @@ const Register = () => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    
+    // Auto-detect role based on email
+    if (name === 'email') {
+      let detectedRole = 'student';
+      if (value.includes('admin@sece.ac.in')) {
+        detectedRole = 'admin';
+      } else if (value.includes('warden@sece.ac.in')) {
+        detectedRole = 'warden';
+      } else if (value.includes('faculty@sece.ac.in')) {
+        detectedRole = 'faculty';
+      } else if (value.includes('@sece.ac.in')) {
+        detectedRole = 'student';
+      }
+      setFormData({ ...formData, [name]: value, role: detectedRole });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate email format
+    if (!formData.email.includes('@sece.ac.in')) {
+      alert('Please use your SECE email address (@sece.ac.in)');
+      return;
+    }
+    
     try {
       const { data } = await API.post('/auth/register', formData);
       login(data.token, data.user);
@@ -42,18 +66,21 @@ const Register = () => {
           <input name="name" placeholder="Name" onChange={handleChange} required />
         </div>
         <div className="form-group">
-          <input name="email" type="email" placeholder="Email" onChange={handleChange} required />
+          <input 
+            name="email" 
+            type="email" 
+            placeholder="Email (e.g., student@sece.ac.in, admin@sece.ac.in)" 
+            onChange={handleChange} 
+            required 
+          />
+          {formData.email && (
+            <small style={{ color: '#10b981', fontSize: '12px', marginTop: '5px', display: 'block' }}>
+              Role detected: <strong>{formData.role.toUpperCase()}</strong>
+            </small>
+          )}
         </div>
         <div className="form-group">
           <input name="password" type="password" placeholder="Password" onChange={handleChange} required />
-        </div>
-        <div className="form-group">
-          <select name="role" onChange={handleChange}>
-            <option value="student">Student</option>
-            <option value="faculty">Faculty</option>
-            <option value="warden">Warden</option>
-            <option value="admin">Admin</option>
-          </select>
         </div>
         <div className="form-group">
           <input name="department" placeholder="Department" onChange={handleChange} />
