@@ -39,6 +39,37 @@ const QuickActions = ({ onRefresh }) => {
     }
   };
 
+  const generateReport = async () => {
+    try {
+      const { data: stats } = await API.get('/warden/hostel-stats');
+      const { data: analytics } = await API.get('/warden/complaint-analytics');
+      
+      let report = '📊 HOSTEL REPORT\n\n';
+      report += `Total Students: ${stats.totalStudents}\n`;
+      report += `Active Emergencies: ${stats.activeEmergencies}\n`;
+      report += `Pending Complaints: ${stats.pendingComplaints}\n`;
+      report += `Total Complaints: ${stats.totalComplaints}\n\n`;
+      report += `Avg Resolution Time: ${analytics.avgResolutionTime} hours\n`;
+      
+      alert(report);
+    } catch (error) {
+      alert('Failed to generate report');
+    }
+  };
+
+  const viewAllStudents = async () => {
+    try {
+      const { data } = await API.get('/warden/hostel-stats');
+      let studentInfo = 'STUDENT DISTRIBUTION\n\n';
+      Object.entries(data.blockCounts).forEach(([block, count]) => {
+        studentInfo += `Block ${block}: ${count} students\n`;
+      });
+      alert(studentInfo);
+    } catch (error) {
+      alert('Failed to fetch student data');
+    }
+  };
+
   return (
     <div className="card">
       <h2>⚡ Quick Actions</h2>
@@ -61,19 +92,19 @@ const QuickActions = ({ onRefresh }) => {
         </button>
         
         <button 
-          onClick={onRefresh}
+          onClick={generateReport}
           className="btn-secondary"
           style={{ width: '100%', padding: '20px', fontSize: '16px' }}
         >
-          🔄 Refresh Data
+          📊 Generate Report
         </button>
         
         <button 
-          onClick={() => window.location.reload()}
+          onClick={viewAllStudents}
           className="btn-secondary"
           style={{ width: '100%', padding: '20px', fontSize: '16px' }}
         >
-          🏠 Reload Dashboard
+          👥 Student Info
         </button>
       </div>
     </div>

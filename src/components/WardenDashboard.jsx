@@ -5,6 +5,7 @@ import io from 'socket.io-client';
 import ComplaintAnalytics from './dashboard/ComplaintAnalytics';
 import HostelStats from './dashboard/HostelStats';
 import QuickActions from './dashboard/QuickActions';
+import RoomMaintenance from './dashboard/RoomMaintenance';
 
 const WardenDashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -66,6 +67,8 @@ const WardenDashboard = () => {
       <HostelStats />
 
       <ComplaintAnalytics />
+
+      <RoomMaintenance />
 
       <div className="card">
         <h2>🚨 Emergency Alerts</h2>
