@@ -23,11 +23,11 @@ const Register = () => {
     // Auto-detect role based on email
     if (name === 'email') {
       let detectedRole = 'student';
-      if (value.includes('admin@sece.ac.in')) {
+      if (value.includes('.admin@sece.ac.in')) {
         detectedRole = 'admin';
-      } else if (value.includes('warden@sece.ac.in')) {
+      } else if (value.includes('warden.') && value.includes('@sece.ac.in')) {
         detectedRole = 'warden';
-      } else if (value.includes('faculty@sece.ac.in')) {
+      } else if (value.includes('.faculty@sece.ac.in')) {
         detectedRole = 'faculty';
       } else if (value.includes('@sece.ac.in')) {
         detectedRole = 'student';
@@ -69,7 +69,7 @@ const Register = () => {
           <input 
             name="email" 
             type="email" 
-            placeholder="Email (e.g., student@sece.ac.in, admin@sece.ac.in)" 
+            placeholder="Email (e.g., name.s2024csbs@sece.ac.in, name.admin@sece.ac.in)" 
             onChange={handleChange} 
             required 
           />
