@@ -47,6 +47,12 @@ body {
   font-size: 15px;
   transition: all 0.3s;
   background: #fafafa;
+  color: #1a1a1a;
+}
+
+.form-group input::placeholder,
+.form-group select option {
+  color: #9ca3af;
 }
 
 .form-group input:focus,
