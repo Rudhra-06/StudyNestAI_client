@@ -6,6 +6,9 @@ import ComplaintAnalytics from './dashboard/ComplaintAnalytics';
 import HostelStats from './dashboard/HostelStats';
 import QuickActions from './dashboard/QuickActions';
 import RoomMaintenance from './dashboard/RoomMaintenance';
+import FeedbackAnalytics from './warden/FeedbackAnalytics';
+import AttendanceTracker from './warden/AttendanceTracker';
+import ExpenseDashboard from './warden/ExpenseDashboard';
 
 const WardenDashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -69,6 +72,12 @@ const WardenDashboard = () => {
       <ComplaintAnalytics />
 
       <RoomMaintenance />
+
+      <FeedbackAnalytics />
+
+      <AttendanceTracker />
+
+      <ExpenseDashboard />
 
       <div className="card">
         <h2>🚨 Emergency Alerts</h2>
