@@ -2,6 +2,9 @@ import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import API from '../utils/api';
 import io from 'socket.io-client';
+import ComplaintAnalytics from './dashboard/ComplaintAnalytics';
+import HostelStats from './dashboard/HostelStats';
+import QuickActions from './dashboard/QuickActions';
 
 const WardenDashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -57,6 +60,12 @@ const WardenDashboard = () => {
           <button onClick={logout} className="btn-danger">Logout</button>
         </div>
       </div>
+
+      <QuickActions onRefresh={() => { fetchComplaints(); fetchEmergencies(); }} />
+
+      <HostelStats />
+
+      <ComplaintAnalytics />
 
       <div className="card">
         <h2>🚨 Emergency Alerts</h2>
